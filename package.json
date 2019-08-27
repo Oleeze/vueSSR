@@ -1,0 +1,24 @@
+{
+  "name": "vueSSR",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oleeze/vueSSR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oleeze/vueSSR/issues"
+  },
+  "homepage": "https://github.com/Oleeze/vueSSR#readme",
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-server-renderer": "^2.6.10"
+  }
+}
