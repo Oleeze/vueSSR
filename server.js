@@ -20,7 +20,7 @@ app.get('/test', (req, res) => {
   axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka')
   .then(response => {
 
-    console.log('Hello: ' ,res.data)
+    console.log(res.data)
     res.send(response.data);
   })
   .catch(err => res.send(err))
