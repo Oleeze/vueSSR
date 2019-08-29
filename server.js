@@ -15,7 +15,17 @@ const renderer = require('vue-server-renderer').createRenderer({
 
 server.use('/dist', express.static(path.join(__dirname, './dist')));
 
-//start server
+//Grab random drink
+server.get('/random', (req, res) => {
+	axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(response => {
+		res.send(response.data.drinks)
+	}).catch(err => {
+		console.log(err)
+		res.send(err)
+	})
+})
+
+//Grab cocktails drinks based on liquor
 server.get('/test', (req, res) => {
   axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${req.query.liquor}`)
   .then(response => {
