@@ -4,7 +4,7 @@ const server = express();
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-
+const port = process.env.PORT || 8080;
 //obtain bundle
 const bundle =  require('./dist/server.bundle.js');
 //get renderer from vue server renderer
@@ -17,7 +17,6 @@ server.use('/dist', express.static(path.join(__dirname, './dist')));
 
 //start server
 server.get('/test', (req, res) => {
-  console.log("This is the request: ",req.query)
   axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${req.query.liquor}`)
   .then(response => {
     res.send(response.data.drinks);
@@ -51,4 +50,4 @@ server.get('*', (req, res) => {
     });  
 });  
 
-server.listen(8080, () => console.log("Hello server is running on 8080"));
+server.listen(port, () => console.log(`The server is runnig on : ${port}`));

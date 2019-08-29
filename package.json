@@ -7,9 +7,10 @@
   "private": true,
   "scripts": {
     "build": "npm run build-client && npm run build-server",
-    "build-client": "cross-env NODE_ENV=production webpack --watch --progress --hide-modules",
-    "build-server": "cross-env NODE_ENV=production webpack --watch --config webpack.server.config.js --progress --hide-modules",
-    "start-server": "nodemon server.js"
+    "build-client": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build-server": "cross-env NODE_ENV=production webpack --config webpack.server.config.js --progress --hide-modules",
+    "start-server": "nodemon server.js",
+    "heroku-postbuild": "webpack -p && webpack.server.config.js -p"
   },
   "dependencies": {
     "axios": "^0.19.0",
