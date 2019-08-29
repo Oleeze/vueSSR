@@ -1,23 +1,14 @@
 <template>
-  <div>
-    <input type="text" name="ingredient" v-bind:value="xey">
-    <button>Enterrrrrr</button>
+  <div id="app">
+    Hello World!
+    <p>
+      <router-link to="/">Go To Home</router-link>
+      <router-link to="/about">Go To About</router-link>
+    </p>
+    <router-view></router-view>
   </div>
 </template>
-
 <script>
-export default {
-  name: "app",
-  data: {
-    x: "Enter an ingredient"
-  },
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  }
-};
+export default {};
 </script>
 
-<style>
-</style>

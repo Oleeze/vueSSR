@@ -1,35 +1,54 @@
-const fs = require('fs');
+//express server
 const express = require('express');
+const server = express();
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 
-const { createBundleRenderer } = require('vue-server-renderer');
-
-const bundleRenderer = createBundleRenderer(
-  require('./dist/vue-ssr-bundle.json'),
-  {
+//obtain bundle
+const bundle =  require('./dist/server.bundle.js');
+//get renderer from vue server renderer
+const renderer = require('vue-server-renderer').createRenderer({
+    //set template
     template: fs.readFileSync('./index.html', 'utf-8')
-  }
-);
+});
 
-const app = express();
-const port = process.env.PORT || 8080;
+server.use('/dist', express.static(path.join(__dirname, './dist')));
 
-app.use('/dist', express.static('dist'));
-
-app.get('/test', (req, res) => {
-  axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka')
+//start server
+server.get('/test', (req, res) => {
+  console.log("This is the request: ",req.query)
+  axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${req.query.liquor}`)
   .then(response => {
-
-    console.log(res.data)
-    res.send(response.data);
+    res.send(response.data.drinks);
   })
   .catch(err => res.send(err))
 })
 
-app.get('*', (req, res) => {
-  bundleRenderer
-    .renderToStream({url: req.path})
-    .pipe(res);
-});
 
-app.listen(port, () => console.log(`Server running on port : ${port}`));
+server.get('*', (req, res) => { 
+    
+    bundle.default({ url: req.url }).then((app) => {    
+        //context to use as data source
+        //in the template for interpolation
+        const context = {
+            title: 'Cocktail'
+        };
+
+        renderer.renderToString(app, context, function (err, html) {   
+            if (err) {
+              if (err.code === 404) {
+                res.status(404).end('Page not found')
+              } else {
+                res.status(500).end('Internal Server Error')
+              }
+            } else {
+              res.end(html)
+            }
+          });        
+    }, (err) => {
+        console.log(err);
+    });  
+});  
+
+server.listen(8080, () => console.log("Hello server is running on 8080"));
