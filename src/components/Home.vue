@@ -4,18 +4,29 @@
       <button v-on:click="getRandom">Get Random Drink</button>
     </div>
 
-    <div class="randomDrinksWrapper">
-      <div class="randomDrinkItem" v-for="(randomDrink, index) of arrayRandom" :key="index">
-        <p>Name: {{randomDrink.strDrink }}</p>
-        <p>Type: {{randomDrink.strAlcoholic}}</p>
-        <p>Glass: {{randomDrink.strGlass}}</p>
-        <p>Instructions: {{randomDrink.strInstructions}}</p>
-        <p>Ingredients:</p>
-        <p
-          v-for="(value, name, index) in randomDrink.strIngredients"
-          :key="index"
-        >{{name}} : {{value}}</p>
-        <img data-original="{{index}}" v-bind:src="randomDrink.strDrinkThumb">
+    <div class="rDWrapper">
+      <div class="rDItem" v-for="(randomDrink, index) of arrayRandom" :key="index">
+        <div class="rDPrimary">
+          <div class="rDPS">
+            <img data-original="{{index}}" v-bind:src="randomDrink.strDrinkThumb">
+          </div>
+          <div class="rDPS">
+            <p>Name: {{randomDrink.strDrink }}</p>
+            <p>Type: {{randomDrink.strAlcoholic}}</p>
+            <p>Glass: {{randomDrink.strGlass}}</p>
+            <p>
+              <u>Ingredients</u>
+            </p>
+            <p
+              v-for="(value, name, index) in randomDrink.strIngredients"
+              :key="index"
+            >{{name}} : {{value}}</p>
+          </div>
+        </div>
+
+        <p class="underLine">Instructions</p>
+
+        <p>{{randomDrink.strInstructions}}</p>
       </div>
     </div>
   </div>
@@ -77,31 +88,55 @@ export default {
 
 <style>
 body {
-  background: lightgray;
+  background: #90ddf0;
   margin: 0;
 }
 
 .randomButtonWrapper {
-  background: white;
+  background: #23395b;
   padding: 2em;
 }
 
 .randomButtonWrapper button {
   display: block;
   margin: auto;
-  padding: 1em;
+  padding: 2em;
+  font-size: 24px;
+  background: #d81e5b;
+  color: white;
+  border-radius: 24px;
+  border: 1px solid white;
+  cursor: pointer;
 }
 
-.randomDrinksWrapper {
+.rDWrapper {
   padding: 2em;
 }
 
-.randomDrinkItem {
+.rDItem {
   border: 1px solid black;
   border-radius: 12px;
   background: white;
-  padding: 1em;
+  padding: 4em;
   margin-top: 2em;
+}
+
+.rDItem img {
+  width: 100%;
+}
+
+.rDPrimary {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.rDPS {
+  flex: 1;
+}
+
+.underLine {
+  border-bottom: 1px solid black;
 }
 </style>
 <!-- <form>
