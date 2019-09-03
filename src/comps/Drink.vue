@@ -10,9 +10,6 @@
       >
         <div class="rDPrimary">
           <div class="rDPS">
-            <img v-on:load="hello()" :src="randomDrink.strDrinkThumb">
-          </div>
-          <div class="rDPS">
             <p>Name: {{randomDrink.strDrink }}</p>
             <p>Type: {{randomDrink.strAlcoholic}}</p>
             <p>Glass: {{randomDrink.strGlass}}</p>
@@ -23,6 +20,9 @@
               v-for="(value, name, index) in randomDrink.strIngredients"
               :key="index"
             >{{name}} : {{value}}</p>
+          </div>
+          <div class="rDPS">
+            <img v-on:load="hello()" :src="randomDrink.strDrinkThumb">
           </div>
         </div>
 
@@ -67,13 +67,15 @@ export default {
 }
 
 .rDItem {
+  padding: 2em;
   margin: auto;
-  width: 300px;
+  width: 50%;
   border: 1px solid black;
   border-radius: 12px;
   background: white;
   margin-top: 2em;
   z-index: 1;
+  transition: transform 1s;
 }
 
 .rDItem img {
@@ -81,12 +83,13 @@ export default {
 }
 
 .list-enter-active {
-  transition: opacity 2.5s;
-  animation: slidein 0.4s;
+  transition: flex 3s ease-out;
+  animation: slidein 1s;
 }
 
 .list-enter {
   opacity: 0;
+  flex: 0;
 }
 
 @keyframes slidein {
@@ -101,15 +104,12 @@ export default {
   }
 }
 
-@keyframes keepslidein {
-  from {
-    opacity: 0;
-    transform: translateY(0);
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-
-  to {
-    opacity: 1;
-    transform: translateY(100);
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -120,7 +120,6 @@ export default {
 .rDPrimary {
   display: flex;
   align-items: center;
-  text-align: center;
 }
 
 .rDPS {
@@ -131,6 +130,6 @@ export default {
   border-bottom: 1px solid black;
 }
 .ohYeah:first-of-type {
-  visibility: hidden;
+  display: none;
 }
 </style>
