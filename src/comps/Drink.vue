@@ -1,4 +1,4 @@
-<template>
+<template >
   <div>
     <transition-group name="list" class="rDWrapper">
       <div
@@ -6,10 +6,11 @@
         class="rDItem"
         v-for="(randomDrink) of arrayRandom"
         :key="randomDrink.itemid"
+        ref="item"
       >
         <div class="rDPrimary">
           <div class="rDPS">
-            <img v-on:load="hello(this)" :src="randomDrink.strDrinkThumb">
+            <img v-on:load="hello()" :src="randomDrink.strDrinkThumb">
           </div>
           <div class="rDPS">
             <p>Name: {{randomDrink.strDrink }}</p>
@@ -47,16 +48,14 @@ export default {
   ],
   data() {
     return {
-      isActive: true
+      isActive: true,
+      id: 0
     };
   },
   methods: {
-    loading: function() {
-      console.log("Enitre element has loaded");
-    },
-    hello: function(key) {
-      console.log("Hello: ", key);
-      this.isActive = false;
+    hello: function() {
+      this.$refs.item[this.id].classList.remove("ohYeah");
+      this.id += 1;
     }
   }
 };
@@ -81,14 +80,14 @@ export default {
   width: 100%;
 }
 
-/* .list-enter-active {
+.list-enter-active {
   transition: opacity 2.5s;
   animation: slidein 0.4s;
 }
 
 .list-enter {
   opacity: 0;
-} */
+}
 
 @keyframes slidein {
   from {
@@ -131,7 +130,7 @@ export default {
 .underLine {
   border-bottom: 1px solid black;
 }
-.ohYeah {
+.ohYeah:first-of-type {
   visibility: hidden;
 }
 </style>
