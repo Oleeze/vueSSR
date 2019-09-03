@@ -3,7 +3,7 @@
     <div class="randomButtonWrapper">
       <button v-on:click="getRandom">Get Random Drink</button>
     </div>
-    <randomDrinkList :arrayRandom="arrayRandom"></randomDrinkList>
+    <randomDrinkList :arrayRandom="arrayRandom" :itemid="itemid"></randomDrinkList>
   </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
       liquors: ["vodka", "gin", "rum", "tequila", "whiskey"],
       // checkedLiquor: [],
       // listOfDrinks: [],
-      arrayRandom: []
+      arrayRandom: [],
+      item: 0
     };
   },
   methods: {
@@ -46,7 +47,8 @@ export default {
         strGlass: "",
         strInstructions: "",
         strDrinkThumb: "",
-        strIngredients: {}
+        strIngredients: {},
+        itemid: this.item
       };
       axios.get("/random").then(res => {
         for (let value in res.data[0]) {
@@ -59,6 +61,7 @@ export default {
             }
           }
         }
+        this.item += 1;
         this.arrayRandom.unshift(obj);
       });
     }
@@ -100,3 +103,15 @@ body {
     </form>
     <button v-on:click="test">Get Drinks</button>
     <h3 v-for="(drink, index) of listOfDrinks" :key="index">Drink {{drink}}</h3>
+
+
+        <div v-for="(drink) of arrayRandom" :key="drink.id">
+      <randomDrinkList
+        :strDrink="drink.strDrink"
+        :strAlcoholic="drink.strAlcoholic"
+        :strGlass="drink.strGlass"
+        :strInstructions="drink.strInstructions"
+        :strDrinkThumb="drink.strDrinkThumb"
+        :strIngredients="drink.strIngredients"
+      ></randomDrinkList>
+    </div>

@@ -1,8 +1,13 @@
-<template v-cloak>
+<template>
   <div>
-    <div class="rDWrapper">
-      <div class="rDItem active" v-for="(randomDrink, index) of arrayRandom" :key="index">
-        <div class="rDPrimary" v-cloak>
+    <transition-group name="list" class="rDWrapper">
+      <div
+        :class="{ ohYeah: isActive }"
+        class="rDItem"
+        v-for="(randomDrink) of arrayRandom"
+        :key="randomDrink.itemid"
+      >
+        <div class="rDPrimary">
           <div class="rDPS">
             <img v-on:load="hello(this)" :src="randomDrink.strDrinkThumb">
           </div>
@@ -24,35 +29,40 @@
 
         <p>{{randomDrink.strInstructions}}</p>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
-let self = this;
-
 export default {
-  props: ["arrayRandom"],
+  props: [
+    "strDrink",
+    "strDrinkThumb",
+    "strAlcoholic",
+    "strGlass",
+    "strIngredients",
+    "strInstructions",
+    "arrayRandom",
+    "itemid"
+  ],
   data() {
-    return {};
+    return {
+      isActive: true
+    };
   },
   methods: {
     loading: function() {
       console.log("Enitre element has loaded");
     },
     hello: function(key) {
-      // console.log(key);
-      // console.log("This is the array: ", this.arrayRandom[0]);
+      console.log("Hello: ", key);
+      this.isActive = false;
     }
   }
 };
 </script>
 
 <style>
-[v-cloak] {
-  background: pink;
-}
-
 .rDWrapper {
   padding: 2em;
 }
@@ -65,16 +75,21 @@ export default {
   background: white;
   margin-top: 2em;
   z-index: 1;
-  animation: keepslidein 0.4s;
-}
-
-.rDItem:first-of-type {
-  animation: slidein 0.4s;
 }
 
 .rDItem img {
   width: 100%;
 }
+
+/* .list-enter-active {
+  transition: opacity 2.5s;
+  animation: slidein 0.4s;
+}
+
+.list-enter {
+  opacity: 0;
+} */
+
 @keyframes slidein {
   from {
     opacity: 0;
@@ -116,7 +131,7 @@ export default {
 .underLine {
   border-bottom: 1px solid black;
 }
-[v-cloak] {
-  background: pink;
+.ohYeah {
+  visibility: hidden;
 }
 </style>
