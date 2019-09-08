@@ -1,16 +1,19 @@
 <template>
-  <div class="drinkWrapper">
-    <div class="drinkItem" v-for="(drink, index) in tequilaCocktails" :key="index">
-      <img :src="drink.strDrinkThumb">
-      <div>
-        <h1>{{drink.strDrink}}</h1>
-        <p>Ingredients +</p>
-      </div>
+  <div>
+    <tequilaDrinks :drinkList="tempCockatils"></tequilaDrinks>
+    <div>
+      <button v-if="pageIndex > 1" v-on:click="previous">Previous</button>
+      <button v-on:click="next">Next</button>
     </div>
   </div>
 </template>
 <script>
+import TequilaDrinks from "../comps/TequilaDrinks.vue";
+
 export default {
+  components: {
+    tequilaDrinks: TequilaDrinks
+  },
   data() {
     return {
       tequilaCocktails: [
@@ -159,44 +162,39 @@ export default {
           idDrink: "16158"
         }
       ],
-      pageIndex: 1
+      pageIndex: 1,
+      tempCockatils: []
     };
   },
+  created: function() {
+    let placeholder = this.pageIndex * 5 - 5;
+    let index = this.pageIndex * 5;
+    for (let i = 0 || placeholder; i < index; i++) {
+      this.tempCockatils.push(this.tequilaCocktails[i]);
+    }
+  },
   methods: {
-    next: function() {},
-    previous: function() {}
+    nex: function(pageIndex) {
+      let tempCockatils = [];
+      let placeholder = pageIndex * 5 - 5;
+      let index = pageIndex * 5;
+      for (let i = 0 || placeholder; i < index; i++) {
+        if (this.tequilaCocktails[i] != undefined) {
+          tempCockatils.push(this.tequilaCocktails[i]);
+        }
+      }
+      this.tempCockatils = tempCockatils;
+      console.log(this.tequilaCocktails.length);
+    },
+    next() {
+      this.pageIndex += 1;
+      this.nex(this.pageIndex);
+    },
+    previous() {
+      this.pageIndex -= 1;
+      this.nex(this.pageIndex);
+    }
   }
 };
 </script>
-
-<style>
-.drinkWrapper {
-  padding: 2em;
-}
-
-.drinkItem {
-  border: 1px solid black;
-  padding: 2em;
-  display: flex;
-  margin-bottom: 2em;
-}
-
-.drinkItem div {
-  position: relative;
-}
-
-.drinkItem h1 {
-  margin: 0;
-  align-items: start;
-}
-.drinkItem p {
-  margin: 0;
-  bottom: 0;
-  position: absolute;
-}
-
-.drinkItem img {
-  width: 15%;
-  margin-right: 2em;
-}
 </style>
