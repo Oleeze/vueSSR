@@ -1,9 +1,12 @@
 <template>
   <div>
     <tequilaDrinks :drinkList="tempCockatils"></tequilaDrinks>
-    <div>
-      <button v-if="pageIndex > 1" v-on:click="previous">Previous</button>
-      <button v-on:click="next">Next</button>
+
+    <div class="pageTracker">
+      <button v-if="pageIndex > 1" v-on:click="previous()">Previous</button>
+      <h1>{{this.$route.params.id}}/</h1>
+      <h1>{{ findLastPage(tequilaCocktails) }}</h1>
+      <button v-if="lastPage > pageIndex" v-on:click="next()">Next</button>
     </div>
   </div>
 </template>
@@ -162,39 +165,76 @@ export default {
           idDrink: "16158"
         }
       ],
-      pageIndex: 1,
+      pageIndex: parseInt(this.$route.params.id) || 1,
+      lastPage: null,
       tempCockatils: []
     };
   },
   created: function() {
+    console.log("YES");
     let placeholder = this.pageIndex * 5 - 5;
     let index = this.pageIndex * 5;
     for (let i = 0 || placeholder; i < index; i++) {
-      this.tempCockatils.push(this.tequilaCocktails[i]);
+      if (this.tequilaCocktails[i] != undefined) {
+        this.tempCockatils.push(this.tequilaCocktails[i]);
+      }
     }
   },
+  updated: function() {
+    this.pageIndex = parseInt(this.$route.params.id);
+    // this.nex();
+  },
   methods: {
-    nex: function(pageIndex) {
+    findLastPage: function(drinks) {
+      let num = Math.round(drinks.length / 5);
+      this.lastPage = num;
+      return num;
+    },
+    nex: function() {
       let tempCockatils = [];
-      let placeholder = pageIndex * 5 - 5;
-      let index = pageIndex * 5;
+      let placeholder = this.pageIndex * 5 - 5;
+      let index = this.pageIndex * 5;
       for (let i = 0 || placeholder; i < index; i++) {
         if (this.tequilaCocktails[i] != undefined) {
           tempCockatils.push(this.tequilaCocktails[i]);
         }
       }
       this.tempCockatils = tempCockatils;
-      console.log(this.tequilaCocktails.length);
     },
     next() {
       this.pageIndex += 1;
-      this.nex(this.pageIndex);
+      this.$router.push({
+        name: "tequila",
+        params: { id: this.pageIndex }
+      });
+      this.nex();
     },
     previous() {
       this.pageIndex -= 1;
-      this.nex(this.pageIndex);
+      this.$router.push({
+        name: "tequila",
+        params: { id: this.pageIndex }
+      });
+      this.nex();
     }
   }
 };
 </script>
+
+
+<style>
+.pageTracker {
+  text-align: center;
+}
+
+.pageTracker h1 {
+  display: inline-block;
+}
+
+.pageTracker button {
+  padding: 1em 2em;
+  background: gray;
+  color: white;
+  font-size: 18px;
+}
 </style>
