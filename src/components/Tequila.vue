@@ -1,13 +1,14 @@
 <template>
   <div>
-    <tequilaDrinks :drinkList="tempCockatils"></tequilaDrinks>
-
     <div class="pageTracker">
-      <button v-if="pageIndex > 1" v-on:click="previous()">Previous</button>
-      <h1>{{this.$route.params.id}}/</h1>
-      <h1>{{ findLastPage(tequilaCocktails) }}</h1>
-      <button v-if="lastPage > pageIndex" v-on:click="next()">Next</button>
+      <h1 v-if="pageIndex > 1" v-on:click="previous()">Prev</h1>
+      <div class="pageCount">
+        <h1>{{this.$route.params.id}}/</h1>
+        <h1>{{ findLastPage(tequilaCocktails) }}</h1>
+      </div>
+      <h1 v-if="lastPage > pageIndex" v-on:click="next()">Next</h1>
     </div>
+    <tequilaDrinks :drinkList="tempCockatils"></tequilaDrinks>
   </div>
 </template>
 <script>
@@ -225,10 +226,13 @@ export default {
 <style>
 .pageTracker {
   text-align: center;
+  border-bottom: 2px solid black;
+  padding: 1.5em 0;
 }
 
 .pageTracker h1 {
   display: inline-block;
+  margin: 0;
 }
 
 .pageTracker button {
@@ -236,5 +240,10 @@ export default {
   background: gray;
   color: white;
   font-size: 18px;
+}
+
+.pageCount {
+  display: inline-block;
+  padding: 0 2em;
 }
 </style>

@@ -32,7 +32,8 @@ server.get('*', (req, res) => {
         //context to use as data source
         //in the template for interpolation
         const context = {
-            title: 'Cocktail'
+            title: 'Cocktail',
+            url: req.url
         };
 
         renderer.renderToString(app, context, function (err, html) {   
